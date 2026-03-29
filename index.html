@@ -276,6 +276,37 @@
 
         // Model database - add your models here!
         const MODELS = {
+            'anime-v4': {
+                name: 'Anime Star Fighter V4',
+                tag: 'Clean - 90 Iterations',
+                path: 'models/starfighter_anime_v4.gltf',
+                cameraPos: [14, -11, 7],
+                stats: {
+                    style: 'Anime / Mecha',
+                    iterations: '90 (4 phases)',
+                    focus: 'Foundation • Shapes • Materials • Cohesiveness',
+                    materials: 8
+                },
+                features: [
+                    'Split fuselage with connecting spine',
+                    'Forward-swept wing panels',
+                    'Twin vertical stabilizers',
+                    'Detailed V-fin headpiece',
+                    'Engine nacelles with intake lips',
+                    'Weapon hardpoints with rails',
+                    'Panel lines and access hatches',
+                    'Navigation lights (red/green)',
+                    'Formation markers',
+                    'National insignia roundels',
+                    'Serial number stripes',
+                    'Pitot tube and static ports',
+                    'Antenna and surface details',
+                    'Cockpit canopy with frame',
+                    'Control surface hinges',
+                    'Heat-resistant belly tiles'
+                ],
+                bloom: { strength: 0.55, radius: 0.35, threshold: 0.7 }
+            },
             'anime-v3': {
                 name: 'Anime Star Fighter V3',
                 tag: 'Latest - 90 Iterations',
@@ -377,7 +408,7 @@
             }
         };
 
-        let currentModel = 'anime-v3';
+        let currentModel = 'anime-v4';
         let viewer = null;
 
         // Initialize viewer
