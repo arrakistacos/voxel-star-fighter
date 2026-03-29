@@ -489,8 +489,8 @@
             
             // Scene
             const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0a0e17);
-            scene.fog = new THREE.Fog(0x0a0e17, 10, 50);
+            scene.background = new THREE.Color(0x7a8490);
+            scene.fog = new THREE.Fog(0x7a8490, 10, 50);
 
             // Camera
             const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -725,20 +725,20 @@
 
         document.getElementById('btn-bg').addEventListener('click', function() {
             darkBg = !darkBg;
-            const bgColor = darkBg ? 0x0a0e17 : 0xf0f4f8;
-            const fogColor = darkBg ? 0x0a0e17 : 0xf0f4f8;
-            const gridColor1 = darkBg ? 0x1a3a5c : 0x8899aa;
-            const gridColor2 = darkBg ? 0x0d1f2d : 0xc0c8d0;
+            const bgColor = darkBg ? 0x0a0e17 : 0x8a94a0;
+            const fogColor = darkBg ? 0x0a0e17 : 0x8a94a0;
+            const gridColor1 = darkBg ? 0x1a3a5c : 0x556677;
+            const gridColor2 = darkBg ? 0x0d1f2d : 0x334455;
             
             // Update viewer background if initialized
             if (viewer && viewer.setBackground) {
                 viewer.setBackground(bgColor, fogColor, gridColor1, gridColor2);
             }
             
-            // Update body background
+            // Update body background - muted gray instead of bright white
             document.body.style.background = darkBg 
                 ? 'linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0d1520 100%)'
-                : 'linear-gradient(135deg, #e8ecf1 0%, #f5f7fa 50%, #eef2f5 100%)';
+                : 'linear-gradient(135deg, #7a8490 0%, #8a94a0 50%, #9aa4b0 100%)';
             
             // Update text colors
             document.body.style.color = darkBg ? '#fff' : '#1a2332';
