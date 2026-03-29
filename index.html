@@ -276,6 +276,40 @@
 
         // Model database - add your models here!
         const MODELS = {
+            'anime-v5': {
+                name: 'Anime Star Fighter V5',
+                tag: 'Complete - 75 Iterations',
+                path: 'models/starfighter_anime_v5.gltf',
+                cameraPos: [14, -11, 7],
+                stats: {
+                    style: 'Anime / Mecha',
+                    iterations: '75 (5 phases)',
+                    focus: 'Skeleton • Gap Fill • Shapes • Materials • Cohesion',
+                    materials: 8
+                },
+                features: [
+                    'Unified fuselage - no splits or gaps',
+                    'Seamless nose-to-body transition',
+                    'Complete wing surfaces with closed tips',
+                    'Twin vertical stabilizers with tip lights',
+                    'Engine housings with closed intake lips',
+                    'V-fin headpiece with integrated base',
+                    'Panel lines (indented, not raised)',
+                    'Weapon pylons with solid caps',
+                    'Surface fasteners and hardware',
+                    'Navigation lights (red/green)',
+                    'Formation markers',
+                    'National insignia roundels',
+                    'Belly stripes',
+                    'Cockpit canopy with frame',
+                    'Edge guards for surface continuity',
+                    'Heat-resistant belly tiles',
+                    'Pitot tube and static ports',
+                    'Antenna',
+                    'All gaps filled - complete model'
+                ],
+                bloom: { strength: 0.55, radius: 0.35, threshold: 0.7 }
+            },
             'anime-v4': {
                 name: 'Anime Star Fighter V4',
                 tag: 'Clean - 90 Iterations',
@@ -408,7 +442,7 @@
             }
         };
 
-        let currentModel = 'anime-v4';
+        let currentModel = 'anime-v5';
         let viewer = null;
 
         // Initialize viewer
