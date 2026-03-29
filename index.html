@@ -275,6 +275,33 @@
 
         // Model database - add your models here!
         const MODELS = {
+            'anime-v2': {
+                name: 'Anime Star Fighter V2',
+                tag: 'Latest',
+                path: 'models/starfighter_anime_v2.gltf',
+                cameraPos: [12, -9, 7],
+                stats: {
+                    style: 'Anime / Mecha',
+                    refinements: '30+ (40 total)',
+                    focus: 'Gaps • Shapes • Materials',
+                    polys: '~2,400'
+                },
+                features: [
+                    'Split fuselage with connecting spine',
+                    'Reinforced nose with armor plating',
+                    'Forward-swept wing extensions',
+                    'Twin vertical stabilizers',
+                    'Intake vents and air channels',
+                    'Engine nacelles with glow effects',
+                    'V-fin Gundam-style headpiece',
+                    'Weapon hardpoints and pylons',
+                    'Sensor domes and arrays',
+                    'Navigation lights (red/green)',
+                    'Panel lines and decals',
+                    'Heat-resistant belly tiles'
+                ],
+                bloom: { strength: 0.5, radius: 0.35, threshold: 0.75 }
+            },
             'anime': {
                 name: 'Anime Star Fighter',
                 tag: 'Low-Poly',
@@ -321,7 +348,7 @@
             }
         };
 
-        let currentModel = 'anime';
+        let currentModel = 'anime-v2';
         let viewer = null;
 
         // Initialize viewer
