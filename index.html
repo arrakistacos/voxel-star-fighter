@@ -276,6 +276,34 @@
 
         // Model database - add your models here!
         const MODELS = {
+            'anime-v7-reference': {
+                name: 'Anime Star Fighter V7',
+                tag: 'Reference-First - 40 Iterations',
+                path: 'models/starfighter_v7_reference.gltf',
+                cameraPos: [14, -11, 7],
+                stats: {
+                    style: 'Anime / Mecha',
+                    iterations: '40 (reference-based)',
+                    focus: 'Top/Side/Front reference diagrams',
+                    materials: 6
+                },
+                features: [
+                    'Built from orthographic references',
+                    'Top view: Forward-swept wings, engine placement',
+                    'Side view: Fuselage curve, canopy bubble, V-fin angle',
+                    'Front view: Intake pods, twin stabilizers, V-fin',
+                    'Reference proportions: Length ~7.5m, Span ~10m',
+                    'Oval fuselage cross-section',
+                    'Pointed nose cone per side reference',
+                    'White vertical stabilizers',
+                    'Yellow V-fin accent',
+                    'Dark intake pods',
+                    'Blue main body',
+                    'Glass canopy',
+                    'Engine glow'
+                ],
+                bloom: { strength: 0.55, radius: 0.35, threshold: 0.7 }
+            },
             'anime-v6-voxel': {
                 name: 'Anime Star Fighter V6',
                 tag: 'Voxel - 40 Iterations',
@@ -472,7 +500,7 @@
             }
         };
 
-        let currentModel = 'anime-v6-voxel';
+        let currentModel = 'anime-v7-reference';
         let viewer = null;
 
         // Initialize viewer
