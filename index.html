@@ -243,6 +243,7 @@
         <div class="controls">
             <button class="btn active" id="btn-rotate">⏵ Auto Rotate</button>
             <button class="btn" id="btn-wireframe">◈ Wireframe</button>
+            <button class="btn" id="btn-bg">☀ Light BG</button>
             <button class="btn" id="btn-reset">⟲ Reset</button>
         </div>
     </div>
@@ -497,12 +498,22 @@
                         loadedModel.traverse((child) => {
                             if (child.isMesh) {
                                 child.material = wireframeMode 
-                                    ? new THREE.MeshBasicMaterial({ color: 0x4fc3f7, wireframe: true })
+                                    ? new THREE.MeshBasicMaterial({ color: darkBg ? 0x4fc3f7 : 0x0066cc, wireframe: true })
                                     : child.userData.originalMaterial;
                             }
                         });
                     }
                     return wireframeMode;
+                },
+                setBackground: (bgColor, fogColor, gridColor1, gridColor2) => {
+                    scene.background = new THREE.Color(bgColor);
+                    scene.fog = new THREE.Fog(fogColor, 10, 50);
+                    // Remove old grid
+                    scene.children = scene.children.filter(child => !(child instanceof THREE.GridHelper));
+                    // Add new grid
+                    const newGrid = new THREE.GridHelper(20, 20, gridColor1, gridColor2);
+                    newGrid.position.y = -3;
+                    scene.add(newGrid);
                 },
                 reset: () => {
                     camera.position.set(...model.cameraPos);
@@ -576,6 +587,8 @@
         }
 
         // Control buttons
+        let darkBg = true;
+        
         document.getElementById('btn-rotate').addEventListener('click', function() {
             const active = viewer?.toggleRotate();
             this.classList.toggle('active', active);
@@ -585,6 +598,30 @@
         document.getElementById('btn-wireframe').addEventListener('click', function() {
             const active = viewer?.toggleWireframe();
             this.classList.toggle('active', active);
+        });
+
+        document.getElementById('btn-bg').addEventListener('click', function() {
+            darkBg = !darkBg;
+            const bgColor = darkBg ? 0x0a0e17 : 0xf0f4f8;
+            const fogColor = darkBg ? 0x0a0e17 : 0xf0f4f8;
+            const gridColor1 = darkBg ? 0x1a3a5c : 0x8899aa;
+            const gridColor2 = darkBg ? 0x0d1f2d : 0xc0c8d0;
+            
+            // Update viewer background if initialized
+            if (viewer && viewer.setBackground) {
+                viewer.setBackground(bgColor, fogColor, gridColor1, gridColor2);
+            }
+            
+            // Update body background
+            document.body.style.background = darkBg 
+                ? 'linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0d1520 100%)'
+                : 'linear-gradient(135deg, #e8ecf1 0%, #f5f7fa 50%, #eef2f5 100%)';
+            
+            // Update text colors
+            document.body.style.color = darkBg ? '#fff' : '#1a2332';
+            
+            this.innerHTML = darkBg ? '☀ Light BG' : '🌙 Dark BG';
+            this.classList.toggle('active', !darkBg);
         });
 
         document.getElementById('btn-reset').addEventListener('click', () => {
