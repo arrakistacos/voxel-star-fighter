@@ -276,6 +276,36 @@
 
         // Model database - add your models here!
         const MODELS = {
+            'anime-v6-voxel': {
+                name: 'Anime Star Fighter V6',
+                tag: 'Voxel - 40 Iterations',
+                path: 'models/starfighter_v6_voxel.gltf',
+                cameraPos: [13, -10, 7],
+                stats: {
+                    style: 'Anime / Mecha / Voxel',
+                    iterations: '40 design → voxelize → refine',
+                    focus: 'Design → Voxelize Components → Shape → Refine',
+                    materials: 8
+                },
+                features: [
+                    '40-iteration low-poly design base',
+                    'Component-wise voxelization',
+                    'Voxel fuselage with smooth edges',
+                    'Voxel forward-swept wings',
+                    'Voxel twin vertical stabilizers',
+                    'V-fin headpiece',
+                    'Voxel engine nacelles',
+                    'Voxel intakes with dark material',
+                    'Cockpit canopy',
+                    'Thruster glow cubes',
+                    'Voxel panel lines',
+                    'Wing tip yellow voxel details',
+                    'Beveled voxel edges',
+                    'Smooth shading on voxel geometry',
+                    'Hybrid low-poly + voxel aesthetic'
+                ],
+                bloom: { strength: 0.5, radius: 0.4, threshold: 0.75 }
+            },
             'anime-v5': {
                 name: 'Anime Star Fighter V5',
                 tag: 'Complete - 75 Iterations',
@@ -442,7 +472,7 @@
             }
         };
 
-        let currentModel = 'anime-v5';
+        let currentModel = 'anime-v6-voxel';
         let viewer = null;
 
         // Initialize viewer
