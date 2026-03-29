@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voxel Star Fighter | Interactive 3D Viewer</title>
+    <title>3D Model Viewer | OpenClaw</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0d1520 100%);
             min-height: 100vh;
             color: #fff;
@@ -21,144 +21,66 @@
         
         header {
             text-align: center;
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(0, 0, 0, 0.3);
             border-bottom: 1px solid rgba(100, 200, 255, 0.2);
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             background: linear-gradient(90deg, #4fc3f7, #00bcd4, #4fc3f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
         }
         
-        .subtitle {
-            color: #8899a6;
-            margin-top: 0.5rem;
-            font-size: 1.1rem;
+        .model-selector {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .model-btn {
+            padding: 0.6rem 1.2rem;
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .model-btn:hover, .model-btn.active {
+            background: rgba(79, 195, 247, 0.3);
+            border-color: rgba(79, 195, 247, 0.6);
+        }
+        
+        .model-btn .tag {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-left: 0.3rem;
         }
         
         #viewer-container {
             width: 90%;
             max-width: 1200px;
             aspect-ratio: 16/9;
-            margin: 2rem auto;
+            margin: 0 auto 1rem;
             background: radial-gradient(ellipse at center, #1a2332 0%, #0a0e17 100%);
             border-radius: 12px;
             border: 2px solid rgba(79, 195, 247, 0.3);
-            box-shadow: 0 0 60px rgba(79, 195, 247, 0.1), inset 0 0 100px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 60px rgba(79, 195, 247, 0.1);
             position: relative;
             overflow: hidden;
         }
         
-        #canvas {
+        canvas {
             width: 100%;
             height: 100%;
             display: block;
-        }
-        
-        .controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1rem;
-            z-index: 10;
-        }
-        
-        .btn {
-            padding: 0.75rem 1.5rem;
-            background: rgba(79, 195, 247, 0.2);
-            border: 1px solid rgba(79, 195, 247, 0.5);
-            color: #4fc3f7;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .btn:hover {
-            background: rgba(79, 195, 247, 0.4);
-            box-shadow: 0 0 20px rgba(79, 195, 247, 0.4);
-        }
-        
-        .btn.active {
-            background: rgba(79, 195, 247, 0.6);
-            color: #fff;
-        }
-        
-        .info-panel {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto 3rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .info-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(79, 195, 247, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
-            backdrop-filter: blur(10px);
-        }
-        
-        .info-card h3 {
-            color: #4fc3f7;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-        
-        .info-card p {
-            color: #aabbc9;
-            line-height: 1.6;
-        }
-        
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .stat {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            border-left: 3px solid #4fc3f7;
-        }
-        
-        .stat-label {
-            font-size: 0.75rem;
-            color: #8899a6;
-            text-transform: uppercase;
-        }
-        
-        .stat-value {
-            font-size: 1.2rem;
-            color: #fff;
-            font-weight: bold;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: #667788;
-            border-top: 1px solid rgba(79, 195, 247, 0.1);
-        }
-        
-        footer a {
-            color: #4fc3f7;
-            text-decoration: none;
-        }
-        
-        footer a:hover {
-            text-decoration: underline;
         }
         
         .loading {
@@ -169,6 +91,7 @@
             color: #4fc3f7;
             font-size: 1.2rem;
             z-index: 100;
+            text-align: center;
         }
         
         .spinner {
@@ -184,13 +107,132 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.5);
+            color: #4fc3f7;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: rgba(79, 195, 247, 0.4);
+        }
+        
+        .btn.active {
+            background: rgba(79, 195, 247, 0.6);
+            color: #fff;
+        }
+        
+        .info-panel {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        
+        .info-card h3 {
+            color: #4fc3f7;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .info-card p {
+            color: #aabbc9;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border-left: 3px solid #4fc3f7;
+            min-width: 80px;
+        }
+        
+        .stat-label {
+            font-size: 0.65rem;
+            color: #8899a6;
+            text-transform: uppercase;
+        }
+        
+        .stat-value {
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #667788;
+            border-top: 1px solid rgba(79, 195, 247, 0.1);
+            font-size: 0.9rem;
+        }
+        
+        footer a {
+            color: #4fc3f7;
+            text-decoration: none;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            padding: 0.3rem 0;
+            color: #aabbc9;
+            font-size: 0.85rem;
+        }
+        
+        .feature-list li:before {
+            content: "→";
+            color: #4fc3f7;
+            margin-right: 0.5rem;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>🚀 Voxel Star Fighter</h1>
-        <p class="subtitle">Refined through 10 iterations • Interactive Three.js Viewer</p>
+        <h1>🚀 3D Model Viewer</h1>
     </header>
+    
+    <div class="model-selector" id="model-selector">
+        <!-- Models will be populated by JS -->
+    </div>
     
     <div id="viewer-container">
         <div id="loading" class="loading">
@@ -199,64 +241,19 @@
         </div>
         <canvas id="canvas"></canvas>
         <div class="controls">
-            <button class="btn active" id="btn-rotate">Auto Rotate</button>
-            <button class="btn" id="btn-wireframe">Wireframe</button>
-            <button class="btn" id="btn-reset">Reset View</button>
+            <button class="btn active" id="btn-rotate">⏵ Auto Rotate</button>
+            <button class="btn" id="btn-wireframe">◈ Wireframe</button>
+            <button class="btn" id="btn-reset">⟲ Reset</button>
         </div>
     </div>
     
-    <div class="info-panel">
-        <div class="info-card">
-            <h3>📊 Model Stats</h3>
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-label">Voxels</div>
-                    <div class="stat-value">713</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Materials</div>
-                    <div class="stat-value">7</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Refinements</div>
-                    <div class="stat-value">10</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Vertices</div>
-                    <div class="stat-value">~4,278</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="info-card">
-            <h3>🎨 Design Features</h3>
-            <p>
-                • Extended fuselage with detailed panel lines<br>
-                • Progressive nose cone with tapered tip<br>
-                • Angled wings with span-based depth<br>
-                • Twin engine nacelles with emission glow<br>
-                • Wing-mounted weapon barrels<br>
-                • Vertical stabilizers (tail fins)<br>
-                • Rear vents, antenna, side thrusters
-            </p>
-        </div>
-        
-        <div class="info-card">
-            <h3>🛠️ Technical Details</h3>
-            <p>
-                <strong>Created with:</strong> Blender 4.2.3 LTS<br>
-                <strong>Renderer:</strong> Cycles (256 samples)<br>
-                <strong>Export:</strong> glTF 2.0 format<br>
-                <strong>Viewer:</strong> Three.js r128<br>
-                <strong>Lighting:</strong> 4-point studio setup<br>
-                <strong>Resolution:</strong> 2048 × 1152px
-            </p>
-        </div>
+    <div class="info-panel" id="info-panel">
+        <!-- Dynamic content -->
     </div>
     
     <footer>
-        <p>Created with ❤️ using Blender Python scripting • 
-        <a href="https://github.com/arrakistacos/voxel-star-fighter">View on GitHub</a></p>
+        <p>Built with Blender + Three.js | 
+        <a href="https://github.com/arrakistacos/voxel-star-fighter">GitHub Repo</a></p>
     </footer>
     
     <script type="importmap">
@@ -276,176 +273,301 @@
         import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
         import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-        // Scene setup
-        const container = document.getElementById('viewer-container');
-        const canvas = document.getElementById('canvas');
-        const loading = document.getElementById('loading');
-        
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0a0e17);
-        scene.fog = new THREE.Fog(0x0a0e17, 10, 50);
-        
-        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.set(8, 6, 8);
-        
-        const renderer = new THREE.WebGLRenderer({ 
-            canvas: canvas, 
-            antialias: true, 
-            alpha: true,
-            powerPreference: "high-performance"
-        });
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2;
-        
-        // Post-processing (bloom for engine glow)
-        const composer = new EffectComposer(renderer);
-        const renderPass = new RenderPass(scene, camera);
-        composer.addPass(renderPass);
-        
-        const bloomPass = new UnrealBloomPass(
-            new THREE.Vector2(container.clientWidth, container.clientHeight),
-            0.5,  // strength
-            0.4,  // radius
-            0.85  // threshold
-        );
-        composer.addPass(bloomPass);
-        
-        // Controls
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.autoRotate = true;
-        controls.autoRotateSpeed = 2.0;
-        controls.minDistance = 3;
-        controls.maxDistance = 20;
-        controls.target.set(0, 0, 0);
-        
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
-        scene.add(ambientLight);
-        
-        const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        keyLight.position.set(5, -5, 5);
-        keyLight.castShadow = true;
-        keyLight.shadow.mapSize.width = 2048;
-        keyLight.shadow.mapSize.height = 2048;
-        scene.add(keyLight);
-        
-        const fillLight = new THREE.DirectionalLight(0x88ccff, 0.8);
-        fillLight.position.set(-5, 3, 2);
-        scene.add(fillLight);
-        
-        const rimLight = new THREE.DirectionalLight(0xffaa77, 0.8);
-        rimLight.position.set(0, 5, -3);
-        scene.add(rimLight);
-        
-        // Point lights for engine glow
-        const engineLight1 = new THREE.PointLight(0x00aaff, 2, 5);
-        engineLight1.position.set(-1.5, 0, -4);
-        scene.add(engineLight1);
-        
-        const engineLight2 = new THREE.PointLight(0x00aaff, 2, 5);
-        engineLight2.position.set(1.5, 0, -4);
-        scene.add(engineLight2);
-        
-        // Grid helper
-        const gridHelper = new THREE.GridHelper(20, 20, 0x1a3a5c, 0x0d1f2d);
-        gridHelper.position.y = -3;
-        scene.add(gridHelper);
-        
-        // Load GLTF
-        let model;
-        let wireframeMode = false;
-        
-        const loader = new GLTFLoader();
-        loader.load('starfighter.gltf', 
-            (gltf) => {
-                model = gltf.scene;
-                
-                // Center and scale model
-                const box = new THREE.Box3().setFromObject(model);
-                const center = box.getCenter(new THREE.Vector3());
-                const size = box.getSize(new THREE.Vector3());
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 3 / maxDim;
-                
-                model.scale.setScalar(scale);
-                model.position.sub(center.multiplyScalar(scale));
-                
-                // Enable shadows
-                model.traverse((child) => {
-                    if (child.isMesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                        
-                        // Store original material for wireframe toggle
-                        child.userData.originalMaterial = child.material.clone();
-                    }
-                });
-                
-                scene.add(model);
-                loading.style.display = 'none';
+        // Model database - add your models here!
+        const MODELS = {
+            'anime': {
+                name: 'Anime Star Fighter',
+                tag: 'Low-Poly',
+                path: 'models/starfighter_anime.gltf',
+                cameraPos: [10, 7, 10],
+                stats: {
+                    style: 'Anime / Mecha',
+                    refinements: 10,
+                    polys: '~800',
+                    materials: 7
+                },
+                features: [
+                    'Streamlined fuselage with anime proportions',
+                    'Pointed nose cone with V-fin detail',
+                    'Bubble canopy cockpit',
+                    'Angular swept wings',
+                    'Dual thruster engines with glow',
+                    'Wing-mounted cannons',
+                    'Toon shader materials'
+                ],
+                bloom: { strength: 0.4, radius: 0.3, threshold: 0.8 }
             },
-            (xhr) => {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            },
-            (error) => {
-                console.error('Error loading model:', error);
-                loading.innerHTML = '<p style="color: #ff6666;">Error loading model. Please check console.</p>';
+            'voxel': {
+                name: 'Voxel Star Fighter',
+                tag: 'Voxel',
+                path: 'starfighter.gltf',
+                cameraPos: [8, 6, 8],
+                stats: {
+                    style: 'Voxel Art',
+                    refinements: 10,
+                    voxels: 713,
+                    materials: 7
+                },
+                features: [
+                    'Cube-based voxel construction',
+                    'Detailed panel lines',
+                    'Extended wings with accents',
+                    'Weapon barrels',
+                    'Engine nacelles with emission',
+                    'Surface details (vents, antenna)',
+                    'PBR materials'
+                ],
+                bloom: { strength: 0.5, radius: 0.4, threshold: 0.85 }
             }
-        );
-        
-        // Button handlers
-        document.getElementById('btn-rotate').addEventListener('click', (e) => {
-            controls.autoRotate = !controls.autoRotate;
-            e.target.classList.toggle('active');
-        });
-        
-        document.getElementById('btn-wireframe').addEventListener('click', (e) => {
-            wireframeMode = !wireframeMode;
-            e.target.classList.toggle('active');
+        };
+
+        let currentModel = 'anime';
+        let viewer = null;
+
+        // Initialize viewer
+        function initViewer(modelKey) {
+            const model = MODELS[modelKey];
+            const container = document.getElementById('viewer-container');
+            const canvas = document.getElementById('canvas');
+            const loading = document.getElementById('loading');
             
-            if (model) {
-                model.traverse((child) => {
-                    if (child.isMesh) {
-                        if (wireframeMode) {
-                            child.material = new THREE.MeshBasicMaterial({
-                                color: 0x4fc3f7,
-                                wireframe: true
-                            });
-                        } else {
-                            child.material = child.userData.originalMaterial;
-                        }
-                    }
-                });
+            if (viewer) {
+                // Cleanup previous viewer
+                viewer.destroy?.();
             }
-        });
-        
-        document.getElementById('btn-reset').addEventListener('click', () => {
-            camera.position.set(8, 6, 8);
-            controls.target.set(0, 0, 0);
-            controls.update();
-        });
-        
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            composer.render();
-        }
-        animate();
-        
-        // Resize handler
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
+            
+            // Scene
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0e17);
+            scene.fog = new THREE.Fog(0x0a0e17, 10, 50);
+
+            // Camera
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(...model.cameraPos);
+
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
-            composer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
+
+            // Post-processing
+            const composer = new EffectComposer(renderer);
+            const renderPass = new RenderPass(scene, camera);
+            composer.addPass(renderPass);
+            
+            const bloomPass = new UnrealBloomPass(
+                new THREE.Vector2(container.clientWidth, container.clientHeight),
+                model.bloom.strength,
+                model.bloom.radius,
+                model.bloom.threshold
+            );
+            composer.addPass(bloomPass);
+
+            // Controls
+            const controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 2;
+            controls.minDistance = 3;
+            controls.maxDistance = 25;
+            controls.target.set(0, 0, 0);
+
+            // Lighting
+            const ambient = new THREE.AmbientLight(0x404040, 0.5);
+            scene.add(ambient);
+
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            keyLight.position.set(5, -5, 5);
+            keyLight.castShadow = true;
+            scene.add(keyLight);
+
+            const fillLight = new THREE.DirectionalLight(0x88ccff, 0.8);
+            fillLight.position.set(-5, 3, 2);
+            scene.add(fillLight);
+
+            const rimLight = new THREE.DirectionalLight(0xffaa77, 0.8);
+            rimLight.position.set(0, 5, -3);
+            scene.add(rimLight);
+
+            // Grid
+            const grid = new THREE.GridHelper(20, 20, 0x1a3a5c, 0x0d1f2d);
+            grid.position.y = -3;
+            scene.add(grid);
+
+            // Load model
+            let loadedModel = null;
+            let wireframeMode = false;
+
+            loading.style.display = 'block';
+            
+            const loader = new GLTFLoader();
+            loader.load(model.path,
+                (gltf) => {
+                    loadedModel = gltf.scene;
+                    
+                    const box = new THREE.Box3().setFromObject(loadedModel);
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = 3 / maxDim;
+                    
+                    loadedModel.scale.setScalar(scale);
+                    loadedModel.position.sub(center.multiplyScalar(scale));
+                    
+                    loadedModel.traverse((child) => {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.originalMaterial = child.material?.clone();
+                        }
+                    });
+                    
+                    scene.add(loadedModel);
+                    loading.style.display = 'none';
+                },
+                (xhr) => {
+                    const pct = Math.round(xhr.loaded / xhr.total * 100);
+                    loading.innerHTML = `<div class="spinner"></div>Loading... ${pct}%`;
+                },
+                (err) => {
+                    console.error(err);
+                    loading.innerHTML = '<p style="color: #ff6666;">Failed to load</p>';
+                }
+            );
+
+            // Animation loop
+            let animId;
+            function animate() {
+                animId = requestAnimationFrame(animate);
+                controls.update();
+                composer.render();
+            }
+            animate();
+
+            // Resize handler
+            const onResize = () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                composer.setSize(container.clientWidth, container.clientHeight);
+            };
+            window.addEventListener('resize', onResize);
+
+            // Store viewer methods
+            viewer = {
+                toggleRotate: () => {
+                    controls.autoRotate = !controls.autoRotate;
+                    return controls.autoRotate;
+                },
+                toggleWireframe: () => {
+                    wireframeMode = !wireframeMode;
+                    if (loadedModel) {
+                        loadedModel.traverse((child) => {
+                            if (child.isMesh) {
+                                child.material = wireframeMode 
+                                    ? new THREE.MeshBasicMaterial({ color: 0x4fc3f7, wireframe: true })
+                                    : child.userData.originalMaterial;
+                            }
+                        });
+                    }
+                    return wireframeMode;
+                },
+                reset: () => {
+                    camera.position.set(...model.cameraPos);
+                    controls.target.set(0, 0, 0);
+                    controls.update();
+                },
+                destroy: () => {
+                    cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', onResize);
+                }
+            };
+
+            return viewer;
+        }
+
+        // Update info panel
+        function updateInfo(modelKey) {
+            const model = MODELS[modelKey];
+            const panel = document.getElementById('info-panel');
+            
+            panel.innerHTML = `
+                <div class="info-card">
+                    <h3>📊 Model Stats</h3>
+                    <div class="stats">
+                        ${Object.entries(model.stats).map(([k, v]) => `
+                            <div class="stat">
+                                <div class="stat-label">${k}</div>
+                                <div class="stat-value">${v}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="info-card">
+                    <h3>🎨 Design Features</h3>
+                    <ul class="feature-list">
+                        ${model.features.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🛠️ Controls</h3>
+                    <p>
+                        <strong>Left Click + Drag:</strong> Rotate<br>
+                        <strong>Right Click + Drag:</strong> Pan<br>
+                        <strong>Scroll:</strong> Zoom<br>
+                        <strong>Auto Rotate:</strong> Toggle smooth rotation<br>
+                        <strong>Wireframe:</strong> See mesh structure
+                    </p>
+                </div>
+            `;
+        }
+
+        // Build model selector
+        function buildSelector() {
+            const selector = document.getElementById('model-selector');
+            selector.innerHTML = Object.entries(MODELS).map(([key, model]) => `
+                <button class="model-btn ${key === currentModel ? 'active' : ''}" data-model="${key}">
+                    ${model.name}
+                    <span class="tag">${model.tag}</span>
+                </button>
+            `).join('');
+            
+            selector.querySelectorAll('.model-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentModel = btn.dataset.model;
+                    selector.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    initViewer(currentModel);
+                    updateInfo(currentModel);
+                });
+            });
+        }
+
+        // Control buttons
+        document.getElementById('btn-rotate').addEventListener('click', function() {
+            const active = viewer?.toggleRotate();
+            this.classList.toggle('active', active);
+            this.innerHTML = active ? '⏵ Auto Rotate' : '⏸ Auto Rotate';
         });
+
+        document.getElementById('btn-wireframe').addEventListener('click', function() {
+            const active = viewer?.toggleWireframe();
+            this.classList.toggle('active', active);
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            viewer?.reset();
+        });
+
+        // Initialize
+        buildSelector();
+        initViewer(currentModel);
+        updateInfo(currentModel);
     </script>
 </body>
 </html>
