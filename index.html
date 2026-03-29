@@ -276,9 +276,37 @@
 
         // Model database - add your models here!
         const MODELS = {
+            'anime-v3': {
+                name: 'Anime Star Fighter V3',
+                tag: 'Latest - 90 Iterations',
+                path: 'models/starfighter_anime_v3.gltf',
+                cameraPos: [14, -11, 7],
+                stats: {
+                    style: 'Anime / Mecha',
+                    refinements: '90 total',
+                    focus: 'Battle-tested • Detailed • Cohesive',
+                    materials: 12
+                },
+                features: [
+                    'Panel fasteners and access hatches',
+                    'Maintenance labels and stencils',
+                    'Fuel caps and service ports',
+                    'Surface conduit and structural ribs',
+                    'Hydraulic lines and actuators',
+                    'Enhanced weapons with cooling fins',
+                    'Targeting sensor and laser designator',
+                    'Battle damage and scorch marks',
+                    'Paint chips and repair patches',
+                    'HUD projector and cockpit interior',
+                    'Navigation lights and formation markers',
+                    'Pitot tube and pitot-static ports',
+                    'Roundels and serial numbers'
+                ],
+                bloom: { strength: 0.55, radius: 0.35, threshold: 0.7 }
+            },
             'anime-v2': {
                 name: 'Anime Star Fighter V2',
-                tag: 'Latest',
+                tag: '40 Iterations',
                 path: 'models/starfighter_anime_v2.gltf',
                 cameraPos: [12, -9, 7],
                 stats: {
@@ -349,7 +377,7 @@
             }
         };
 
-        let currentModel = 'anime-v2';
+        let currentModel = 'anime-v3';
         let viewer = null;
 
         // Initialize viewer
