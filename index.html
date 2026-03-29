@@ -276,6 +276,64 @@
 
         // Model database - add your models here!
         const MODELS = {
+            'gengar-3d': {
+                name: 'Gengar',
+                tag: 'Pokemon - 50 Iterations',
+                path: 'models/gengar_3d.gltf',
+                cameraPos: [6, -5, 3],
+                stats: {
+                    style: 'Pokemon / Cartoon',
+                    iterations: '50 (4 phases)',
+                    focus: 'Official Pokemon artwork reference',
+                    materials: 4
+                },
+                features: [
+                    'Round purple body (Ghost/Poison type)',
+                    'Sinister wide grin with sharp teeth',
+                    'Glowing red eyes with emission',
+                    'Iconic spiky back (jagged forest)',
+                    'Two large ear spikes',
+                    'Multiple back spikes',
+                    'Short arms with clawed hands',
+                    'Stubby legs with feet',
+                    'Dark purple color scheme',
+                    'Spooky atmospheric lighting',
+                    'Eerie purple and blue rim lights',
+                    'Eye glow point lights',
+                    'Based on official Pokemon artwork'
+                ],
+                bloom: { strength: 0.8, radius: 0.5, threshold: 0.4 }
+            },
+            'anime-v8-tomcat': {
+                name: 'Anime Star Fighter V8',
+                tag: 'F-14 Tomcat Reference - 50 Iterations',
+                path: 'models/starfighter_v8_tomcat.gltf',
+                cameraPos: [16, -14, 9],
+                stats: {
+                    style: 'Anime / Mecha / Real Reference',
+                    iterations: '50 (9 phases)',
+                    focus: 'F-14 Tomcat blueprint accuracy',
+                    materials: 6
+                },
+                features: [
+                    'Built from F-14 Tomcat orthographic reference',
+                    'Variable-sweep wing geometry',
+                    'Wide-set twin engine nacelles',
+                    'Variable intake ramps',
+                    'Twin vertical stabilizers (canted outward)',
+                    'All-moving horizontal stabilizers',
+                    'Long tandem bubble canopy',
+                    'Gold-tinted cockpit glass',
+                    'AIM-54 Phoenix missiles',
+                    'External fuel tanks',
+                    'Tricycle landing gear',
+                    'Tailhook and arresting gear',
+                    'Navy star insignia',
+                    'Panel lines and access hatches',
+                    'Afterburner glow with point lights'
+                ],
+                bloom: { strength: 0.65, radius: 0.4, threshold: 0.6 }
+            },
             'anime-v7-reference': {
                 name: 'Anime Star Fighter V7',
                 tag: 'Reference-First - 40 Iterations',
@@ -500,7 +558,7 @@
             }
         };
 
-        let currentModel = 'anime-v7-reference';
+        let currentModel = 'gengar-3d';
         let viewer = null;
 
         // Initialize viewer
